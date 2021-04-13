@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SampleServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	SayError(ctx context.Context, in *ErrorRequest, opts ...grpc.CallOption) (*HelloReply, error)
 }
 
 type sampleServiceClient struct {
@@ -38,11 +39,21 @@ func (c *sampleServiceClient) SayHello(ctx context.Context, in *HelloRequest, op
 	return out, nil
 }
 
+func (c *sampleServiceClient) SayError(ctx context.Context, in *ErrorRequest, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, "/sample.SampleService/SayError", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SampleServiceServer is the server API for SampleService service.
 // All implementations must embed UnimplementedSampleServiceServer
 // for forward compatibility
 type SampleServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	SayError(context.Context, *ErrorRequest) (*HelloReply, error)
 	mustEmbedUnimplementedSampleServiceServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedSampleServiceServer struct {
 
 func (UnimplementedSampleServiceServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedSampleServiceServer) SayError(context.Context, *ErrorRequest) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayError not implemented")
 }
 func (UnimplementedSampleServiceServer) mustEmbedUnimplementedSampleServiceServer() {}
 
@@ -84,6 +98,24 @@ func _SampleService_SayHello_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SampleService_SayError_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ErrorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SampleServiceServer).SayError(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sample.SampleService/SayError",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SampleServiceServer).SayError(ctx, req.(*ErrorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SampleService_ServiceDesc is the grpc.ServiceDesc for SampleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +126,10 @@ var SampleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SayHello",
 			Handler:    _SampleService_SayHello_Handler,
+		},
+		{
+			MethodName: "SayError",
+			Handler:    _SampleService_SayError_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

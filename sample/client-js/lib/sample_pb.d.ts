@@ -38,3 +38,21 @@ export namespace HelloReply {
   }
 }
 
+export class ErrorRequest extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): ErrorRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ErrorRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ErrorRequest): ErrorRequest.AsObject;
+  static serializeBinaryToWriter(message: ErrorRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ErrorRequest;
+  static deserializeBinaryFromReader(message: ErrorRequest, reader: jspb.BinaryReader): ErrorRequest;
+}
+
+export namespace ErrorRequest {
+  export type AsObject = {
+    code: number,
+  }
+}
+

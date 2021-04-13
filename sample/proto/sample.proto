@@ -18,5 +18,5 @@ message HelloReply {
 }
 
 message ErrorRequest {
-  string error_type = 1;
+  int32 code = 1;
 }

@@ -150,5 +150,85 @@ proto.sample.SampleServicePromiseClient.prototype.sayHello =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.sample.ErrorRequest,
+ *   !proto.sample.HelloReply>}
+ */
+const methodDescriptor_SampleService_SayError = new grpc.web.MethodDescriptor(
+  '/sample.SampleService/SayError',
+  grpc.web.MethodType.UNARY,
+  proto.sample.ErrorRequest,
+  proto.sample.HelloReply,
+  /**
+   * @param {!proto.sample.ErrorRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sample.HelloReply.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.sample.ErrorRequest,
+ *   !proto.sample.HelloReply>}
+ */
+const methodInfo_SampleService_SayError = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.sample.HelloReply,
+  /**
+   * @param {!proto.sample.ErrorRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sample.HelloReply.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.sample.ErrorRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.sample.HelloReply)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.sample.HelloReply>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.sample.SampleServiceClient.prototype.sayError =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/sample.SampleService/SayError',
+      request,
+      metadata || {},
+      methodDescriptor_SampleService_SayError,
+      callback);
+};
+
+
+/**
+ * @param {!proto.sample.ErrorRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.sample.HelloReply>}
+ *     Promise that resolves to the response
+ */
+proto.sample.SampleServicePromiseClient.prototype.sayError =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/sample.SampleService/SayError',
+      request,
+      metadata || {},
+      methodDescriptor_SampleService_SayError);
+};
+
+
 module.exports = proto.sample;
 

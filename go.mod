@@ -1,4 +1,4 @@
-module github.com/shumbo/grpc-web-richer-error-model-parser
+module github.com/shumbo/grpc-web-error-details
 
 go 1.16
 

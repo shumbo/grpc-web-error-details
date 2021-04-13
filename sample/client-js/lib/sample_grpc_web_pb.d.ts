@@ -15,6 +15,13 @@ export class SampleServiceClient {
                response: sample_pb.HelloReply) => void
   ): grpcWeb.ClientReadableStream<sample_pb.HelloReply>;
 
+  sayError(
+    request: sample_pb.ErrorRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.Error,
+               response: sample_pb.HelloReply) => void
+  ): grpcWeb.ClientReadableStream<sample_pb.HelloReply>;
+
 }
 
 export class SampleServicePromiseClient {
@@ -24,6 +31,11 @@ export class SampleServicePromiseClient {
 
   sayHello(
     request: sample_pb.HelloRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<sample_pb.HelloReply>;
+
+  sayError(
+    request: sample_pb.ErrorRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<sample_pb.HelloReply>;
 

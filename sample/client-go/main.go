@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/shumbo/grpc-web-richer-error-model-parser/sample/proto"
+	pb "github.com/shumbo/grpc-web-error-details/sample/proto"
 	"google.golang.org/grpc"
 )
 
