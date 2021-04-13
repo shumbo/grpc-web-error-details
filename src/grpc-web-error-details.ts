@@ -47,7 +47,7 @@ function byteArrayFromString(str: string): Uint8Array {
 }
 
 export function statusFromError(
-  err: object | { metadata: { "grpc-status-details-bin"?: string } }
+  err: any | { metadata: { "grpc-status-details-bin"?: string } }
 ): [Status, ErrorDetails[]] | [null, null] {
   // to get status, we requires err['metadata']['grpc-status-details-bin']
   if (
