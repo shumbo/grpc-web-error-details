@@ -6,3 +6,10 @@ services:
     container_name: envoy-grpc-proxy
     ports:
       - 9000:9000
+  sample-server:
+    build:
+      context: ../
+      dockerfile: ./sample/server/Dockerfile
+    container_name: grpc-web-error-details-sample-server
+    ports:
+      - 50051:50051

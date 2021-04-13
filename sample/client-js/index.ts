@@ -57,9 +57,7 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
         for (const [i, d] of details.entries()) {
           console.log();
           console.log(`Details #${i + 1} is...`);
-          if (d instanceof RequestInfo) {
-            console.log("RequestInfo: RequestId = ", d.getRequestId());
-          } else if (d instanceof DebugInfo) {
+          if (d instanceof DebugInfo) {
             console.log(
               `DebugInfo: StackEntries = [${d
                 .getStackEntriesList()
