@@ -1,6 +1,6 @@
 {
   "name": "grpc-web-error-details",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility function for deserializing `grpc-status-details-bin` metadata on grpc-web",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,6 +18,11 @@
     "Richer Error Model"
   ],
   "author": "Shun Kashiwa <shunthedev@gmail.com> (https://github.com/shumbo)",
+  "homepage": "https://github.com/shumbo/grpc-web-error-details",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shumbo/grpc-web-error-details"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "run-s build:*",

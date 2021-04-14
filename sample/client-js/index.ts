@@ -2,18 +2,7 @@
 ((global as unknown) as any)["XMLHttpRequest"] = require("xhr2");
 
 import { Code } from "../../lib/code_pb";
-import {
-  BadRequest,
-  DebugInfo,
-  ErrorInfo,
-  Help,
-  LocalizedMessage,
-  PreconditionFailure,
-  QuotaFailure,
-  RequestInfo,
-  ResourceInfo,
-} from "../../lib/error_details_pb";
-import * as richErrorParser from "../../src";
+import * as errorDetails from "../..";
 import { SampleServicePromiseClient } from "./lib/sample_grpc_web_pb";
 import { ErrorRequest, HelloReply, HelloRequest } from "./lib/sample_pb";
 
@@ -29,7 +18,7 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
       console.log(res.toObject());
     } catch (e) {
       console.log("Error: ", e);
-      const [st, details] = richErrorParser.statusFromError(e);
+      const [st, details] = errorDetails.statusFromError(e);
       if (st) {
         console.log("Status: code = ", st.getCode());
       } else {
@@ -49,7 +38,7 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
       console.log(
         "Received error from sayError, calling `statusFromError`...\n"
       );
-      const [st, details] = richErrorParser.statusFromError(e);
+      const [st, details] = errorDetails.statusFromError(e);
       if (st && details) {
         console.log(
           `Created Status: code = ${st.getCode()}, message = "${st.getMessage()}"`
@@ -57,13 +46,13 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
         for (const [i, d] of details.entries()) {
           console.log();
           console.log(`Details #${i + 1} is...`);
-          if (d instanceof DebugInfo) {
+          if (d instanceof errorDetails.DebugInfo) {
             console.log(
               `DebugInfo: StackEntries = [${d
                 .getStackEntriesList()
                 .join(", ")}], Detail = "${d.getDetail()}"`
             );
-          } else if (d instanceof QuotaFailure) {
+          } else if (d instanceof errorDetails.QuotaFailure) {
             console.log("PreconditionFailure");
             console.group();
             for (const [j, v] of d.getViolationsList().entries()) {
@@ -74,13 +63,13 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
               console.groupEnd();
             }
             console.groupEnd();
-          } else if (d instanceof ErrorInfo) {
+          } else if (d instanceof errorDetails.ErrorInfo) {
             console.log(
               `ErrorInfo: Domain = ${d.getDomain()}, Reason = ${d.getReason()}, Metadata = ${JSON.stringify(
                 d.getMetadataMap().toObject()
               )}`
             );
-          } else if (d instanceof PreconditionFailure) {
+          } else if (d instanceof errorDetails.PreconditionFailure) {
             console.log(`PreconditionFailure`);
             console.group();
             for (const [j, v] of d.getViolationsList().entries()) {
@@ -92,7 +81,7 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
               console.groupEnd();
             }
             console.groupEnd();
-          } else if (d instanceof BadRequest) {
+          } else if (d instanceof errorDetails.BadRequest) {
             console.log(`BadRequest`);
             console.group();
             for (const [j, v] of d.getFieldViolationsList().entries()) {
@@ -103,15 +92,15 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
               console.groupEnd();
             }
             console.groupEnd();
-          } else if (d instanceof RequestInfo) {
+          } else if (d instanceof errorDetails.RequestInfo) {
             console.log(
               `RequestInfo: RequestId = ${d.getRequestId()}, ServingData = ${d.getServingData()}`
             );
-          } else if (d instanceof ResourceInfo) {
+          } else if (d instanceof errorDetails.ResourceInfo) {
             console.log(
               `RequestInfo: ResourceType = ${d.getResourceType()}, ResourceName = ${d.getResourceName()}, Owner = ${d.getOwner()}, Description = ${d.getDescription()}`
             );
-          } else if (d instanceof Help) {
+          } else if (d instanceof errorDetails.Help) {
             console.log(`Help`);
             console.group();
             for (const [j, v] of d.getLinksList().entries()) {
@@ -122,7 +111,7 @@ const client = new SampleServicePromiseClient("http://localhost:9000");
               console.groupEnd();
             }
             console.groupEnd();
-          } else if (d instanceof LocalizedMessage) {
+          } else if (d instanceof errorDetails.LocalizedMessage) {
             console.log(
               `LocalizedMessage: Locale = ${d.getLocale()}, Message = ${d.getMessage()}`
             );
