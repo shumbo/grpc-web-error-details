@@ -53,7 +53,7 @@ try {
         // use appropriate methods on details for further information
         for (const v of d.getFieldViolationsList()) {
           console.log(
-            `Violation at field ${v.getField()}: ${v.getDescription}`
+            `Violation at field ${v.getField()}: ${v.getDescription()}`
           );
         }
       }
